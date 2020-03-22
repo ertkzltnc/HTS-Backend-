@@ -9,7 +9,7 @@ var userSchema=new schema({
         type:String
     },
     UserName:{
-        type:String,required:true
+        type:String,required:true,unique:true,index:true
     },
     Password:{
         type:String,required:true
@@ -27,7 +27,10 @@ var userSchema=new schema({
         }
     },
     Active:{
-        type:Boolean,require:true
+        type:Boolean,require:true,
+        default:()=>{
+            return true
+        }
     }
 });
 
