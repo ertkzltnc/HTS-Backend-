@@ -12,12 +12,31 @@ exports.list = (req, res) => {
 
 exports.getById = (req, res) => {
     Animal.findById(req.params.animal_id).populate('SpeciesBy','Name').populate('HerdBy','Name').exec((err, animal) => {
-        if (err) { return new response().error500(res) }
+        if (err) { return new response(null,err).error500(res) }
         if(animal){return new response(animal, null).success(res)}
         return new response().notFound(res)
         
     })
 }
+
+exports.listByHerdId=(req,res)=>{
+    let _id=req.params.herd_id;
+
+    Animal.find({HerdBy:_id}).populate('SpeciesBy','Name').populate('HerdBy','Name').exec((err,animals)=>{
+        if(err){ return new response(null,err).error500(res)}
+        return new response(animals,null).success(res);
+    })
+}
+
+exports.listBySpeciesId=(req,res)=>{
+    let _id=req.params.species_id;
+
+    Animal.find({SpeciesBy:_id}).populate('SpeciesBy','Name').populate('HerdBy','Name').exec((err,animals)=>{
+        if(err){ return new response(null,err).error500(res)}
+        return new response(animals,null).success(res);
+    })
+}
+
 
 exports.create = (req, res) => {
     var animal = new Animal();

@@ -7,6 +7,8 @@ let speciesController=require("./controllers/speciesController");
 
 router.route("/animal").get(animalController.list).post(animalController.create);
 router.route("/animal/:animal_id").put(animalController.update).delete(animalController.delete).get(animalController.getById);
+router.route("/animal/herd/:herd_id").get(animalController.listByHerdId);
+router.route("/animal/species/:species_id").get(animalController.listBySpeciesId);
 router.route("/user").post(userController.create).get(userController.login);
 router.route("/herd").get(herdController.list).post(herdController.create);
 router.route("/herd/:herd_id").put(herdController.update).delete(herdController.delete).get(herdController.getById);

@@ -10,7 +10,7 @@ exports.list = (req, res) => {
 
 exports.getById = (req, res) => {
     Herd.findById(req.params.herd_id, (err, herd) => {
-        if (err) { return new response().error500(res) }
+        if (err) { return new response(null,err).error500(res) }
         if(herd){return new response(herd, null).success(res)}
         return new response().notFound(res)
     })

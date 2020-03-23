@@ -10,7 +10,7 @@ exports.list = (req, res) => {
 
 exports.getById = (req, res) => {
     Species.findById(req.params.species_id, (err, species) => {
-        if (err) { return new response().error500(res) }
+        if (err) { return new response(null,err).error500(res) }
         if(species){return new response(species, null).success(res)}
         return new response().notFound(res)
     })
