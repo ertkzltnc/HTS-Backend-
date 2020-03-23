@@ -7,7 +7,7 @@ class response {
 
     success(res) {
         return res.status(200).json({
-            status: "succes",
+            status: "success",
             data: this.data
         })
     }
@@ -36,7 +36,7 @@ class response {
     notFound(res) {
         return res.status(404).json({
             status: "not found",
-            errors:""
+            data:""
         })
     }
 }

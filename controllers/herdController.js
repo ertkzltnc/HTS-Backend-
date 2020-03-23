@@ -9,9 +9,10 @@ exports.list = (req, res) => {
 }
 
 exports.getById = (req, res) => {
-    Herd.findById(req.herds.herd_id, (err, herd) => {
-        if (err) { return new response().notFound(res) }
-        return new response(herd, null).success(res)
+    Herd.findById(req.params.herd_id, (err, herd) => {
+        if (err) { return new response().error500(res) }
+        if(herd){return new response(herd, null).success(res)}
+        return new response().notFound(res)
     })
 }
 
@@ -26,7 +27,8 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     Herd.findById(req.params.herd_id, (err, herd) => {
-        if (err) { return response().notFound(res) }
+        if (err) { return response(null,err).error500(res) }
+        if(!herd){return response().notFound(res)}
         herd.Name = req.body.Name;        
         herd.save((err) => {
             if (err) { return new response(null, err).error500(res) }

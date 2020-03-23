@@ -9,9 +9,10 @@ exports.list = (req, res) => {
 }
 
 exports.getById = (req, res) => {
-    Species.findById(req.species.species_id, (err, species) => {
-        if (err) { return new response().notFound(res) }
-        return new response(species, null).success(res)
+    Species.findById(req.params.species_id, (err, species) => {
+        if (err) { return new response().error500(res) }
+        if(species){return new response(species, null).success(res)}
+        return new response().notFound(res)
     })
 }
 
@@ -26,7 +27,8 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     Species.findById(req.params.species_id, (err, species) => {
-        if (err) { return response().notFound(res) }
+        if (err) { return response(null,err).error500(res) }
+        if(!species){return response().notFound(res)}
         species.Name = req.body.Name;        
         species.save((err) => {
             if (err) { return new response(null, err).error500(res) }
