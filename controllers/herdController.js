@@ -1,6 +1,8 @@
 Herd = require("../model/herd.model");
 response = require("../response");
 
+const {validationResult}=require("express-validator")
+
 exports.list = (req, res) => {
     Herd.find({}, (err, herds) => {
         if (err) { return new response(null, err).error500(res) }
@@ -17,6 +19,8 @@ exports.getById = (req, res) => {
 }
 
 exports.create = (req, res) => {
+    let errors=validationResult(req);
+    if(!errors.isEmpty()){return new response(null, errors.array()).error400(res);}
     var herd = new Herd();
     herd.Name = req.body.Name;   
     herd.save((err) => {
@@ -26,6 +30,8 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
+    let errors=validationResult(req);
+    if(!errors.isEmpty()){return new response(null, errors.array()).error400(res);}
     Herd.findById(req.params.herd_id, (err, herd) => {
         if (err) { return response(null,err).error500(res) }
         if(!herd){return response().notFound(res)}

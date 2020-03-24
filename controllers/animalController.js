@@ -1,6 +1,8 @@
 Animal = require("../model/animal.model");
 response = require("../response");
 
+const {validationResult}=require("express-validator")
+
 exports.list = (req, res) => {
     Animal.find({}).sort({
         created:-1
@@ -39,6 +41,8 @@ exports.listBySpeciesId=(req,res)=>{
 
 
 exports.create = (req, res) => {
+    let errors=validationResult(req);
+    if(!errors.isEmpty()){return new response(null, errors.array()).error400(res);}
     var animal = new Animal();
     animal.Name = req.body.Name;
     animal.EarID = req.body.EarID;
@@ -53,6 +57,8 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
+    let errors=validationResult(req);
+    if(!errors.isEmpty()){return new response(null, errors.array()).error400(res);}
     Animal.findById(req.params.animal_id, (err, animal) => {
         if (err) { return response(null,err).error500(res) }
         if(!animal){return response().notFound(res)}

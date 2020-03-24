@@ -1,5 +1,7 @@
 Species = require("../model/species.model");
 response = require("../response");
+const {validationResult}=require("express-validator")
+
 
 exports.list = (req, res) => {
     Species.find({}, (err, species) => {
@@ -17,6 +19,8 @@ exports.getById = (req, res) => {
 }
 
 exports.create = (req, res) => {
+    let errors=validationResult(req);
+    if(!errors.isEmpty()){return new response(null, errors.array()).error400(res);}
     var species = new Species();
     species.Name = req.body.Name;   
     species.save((err) => {
@@ -26,6 +30,8 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
+    let errors=validationResult(req);
+    if(!errors.isEmpty()){return new response(null, errors.array()).error400(res);}
     Species.findById(req.params.species_id, (err, species) => {
         if (err) { return response(null,err).error500(res) }
         if(!species){return response().notFound(res)}
