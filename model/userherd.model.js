@@ -2,6 +2,7 @@ var mongoose=require("mongoose");
 var user=require("./user.model");
 var herd=require("./herd.model");
 
+var schema=mongoose.Schema;
  var userherdschema=new schema({
     UserBy:{
         type:mongoose.Schema.Types.ObjectId,

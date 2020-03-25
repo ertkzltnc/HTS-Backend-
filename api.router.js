@@ -3,11 +3,13 @@ const animalController=require("./controllers/animalController");
 const userController=require("./controllers/userController");
 const herdController=require("./controllers/herdController");
 const speciesController=require("./controllers/speciesController");
+const userHerdController=require("./controllers/userHerdController");
 const {check}=require("express-validator");
 
 var userValidator=new Array(
     [check("UserName").notEmpty().withMessage(" username bos olamaz!"),
     check("Password").notEmpty().withMessage("sifre bos olamaz")]);
+
 
 router.route("/animal").get(animalController.list).post([check("EarID").notEmpty().withMessage("EarID bos olamaz!")],animalController.create);
 router.route("/animal/:animal_id").put([check("EarID").notEmpty().withMessage("EarID bos olamaz!")],animalController.update).delete(animalController.delete).get(animalController.getById);
@@ -18,4 +20,6 @@ router.route("/herd").get(herdController.list).post([check("Name").notEmpty().wi
 router.route("/herd/:herd_id").put([check("Name").notEmpty().withMessage("name bos olamaz!")],herdController.update).delete(herdController.delete).get(herdController.getById);
 router.route("/species").get(speciesController.list).post([check("Name").notEmpty().withMessage("name bos olamaz!")],speciesController.create);
 router.route("/species/:species_id").put([check("Name").notEmpty().withMessage("name bos olamaz!")],speciesController.update).delete(speciesController.delete).get(speciesController.getById);
+router.route("/userHerd").get(userHerdController.list).post([check("UserBy").notEmpty().withMessage("UserBy bos olamaz!")],userHerdController.create);
+router.route("/userHerd/:userherd_id").put([check("UserBy").notEmpty().withMessage("UserBy bos olamaz!")],userHerdController.update).delete(userHerdController.delete).get(userHerdController.getById);
 module.exports=router;
